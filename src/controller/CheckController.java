@@ -3,16 +3,17 @@ package controller;
 import models.TaxModel;
 import product.Product;
 import utils.Rounder;
+import views.CheckView;
 import views.TaxView;
 
-public class TaxController {
+public class CheckController {
     TaxModel model;
-    TaxView view;
+    CheckView view;
     private String name;
     private int amount;
     private double tariff;
 
-    public TaxController(TaxModel model, TaxView view) {
+    public CheckController(TaxModel model, CheckView view) {
         this.model = model;
         this.view = view;
     }
@@ -21,14 +22,13 @@ public class TaxController {
         mapDataToModel();
         double[] calcValues = {
                 calcPrice(), calcDiscount(),
-                calcCost(), calcTax(),
-                calcCostWithTax()
+                calcCost(), calcCheckTax(),
+                calcCheckTaxCost()
         };
         String[] roundValues = getRoundValues(calcValues);
         setOutput(formOutput(roundValues));
 
     }
-
     private void mapDataToModel() {
         String[] data = view.getData();
         Product product = new Product();
@@ -54,13 +54,12 @@ public class TaxController {
     private double calcCost() {
         return model.calculateCost(calcPrice(), calcDiscount());
     }
-
-    private double calcTax() {
-        return model.calculateTax(calcCost());
+    private double calcCheckTax() {
+        return model.calculateCheckTax(calcCost());
     }
 
-    private double calcCostWithTax() {
-        return model.calculateTaxWithCost(calcCost(), calcTax());
+    private double calcCheckTaxCost() {
+        return model.calculateTaxCheckCost(calcCost(), calcCheckTax());
     }
     private String[] getRoundValues(double[] calcValues) {
         return new String[]{
@@ -88,3 +87,4 @@ public class TaxController {
         view.getOutput(output);
     }
 }
+

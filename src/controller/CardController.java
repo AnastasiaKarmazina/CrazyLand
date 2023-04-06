@@ -3,16 +3,17 @@ package controller;
 import models.TaxModel;
 import product.Product;
 import utils.Rounder;
-import views.TaxView;
+import views.CardView;
 
-public class TaxController {
+
+public class CardController {
     TaxModel model;
-    TaxView view;
+    CardView view;
     private String name;
     private int amount;
     private double tariff;
 
-    public TaxController(TaxModel model, TaxView view) {
+    public CardController(TaxModel model, CardView view) {
         this.model = model;
         this.view = view;
     }
@@ -21,12 +22,11 @@ public class TaxController {
         mapDataToModel();
         double[] calcValues = {
                 calcPrice(), calcDiscount(),
-                calcCost(), calcTax(),
-                calcCostWithTax()
+                calcCost(), calcCardTax(),
+                calcCardTaxCost()
         };
         String[] roundValues = getRoundValues(calcValues);
         setOutput(formOutput(roundValues));
-
     }
 
     private void mapDataToModel() {
@@ -55,13 +55,14 @@ public class TaxController {
         return model.calculateCost(calcPrice(), calcDiscount());
     }
 
-    private double calcTax() {
-        return model.calculateTax(calcCost());
+    private double calcCardTax() {
+        return model.calculateCardTax(calcCost());
     }
 
-    private double calcCostWithTax() {
-        return model.calculateTaxWithCost(calcCost(), calcTax());
+    private double calcCardTaxCost() {
+        return model.calculateTaxWithCardCost(calcCost(), calcCardTax());
     }
+
     private String[] getRoundValues(double[] calcValues) {
         return new String[]{
                 Rounder.roundValue(calcValues[0]),
@@ -88,3 +89,4 @@ public class TaxController {
         view.getOutput(output);
     }
 }
+
