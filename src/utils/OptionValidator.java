@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class OptionValidator {
     public static int validateOptionInput(Scanner scanner) {
 
-        int[] options = {0, 1, 2};
+        int[] options = {0, 1, 2, 3};
 
         while (!scanner.hasNextInt()) {
             String str = scanner.nextLine().trim();
